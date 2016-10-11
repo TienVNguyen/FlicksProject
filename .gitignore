@@ -53,7 +53,6 @@ Temporary Items
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
-/.app/src/main/res/values/secret.xml
 /build
 /captures
-
+secret.xml
