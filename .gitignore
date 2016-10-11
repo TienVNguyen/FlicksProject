@@ -16,6 +16,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.iml
 
 # =========================
 # Operating System Files
@@ -30,6 +31,8 @@ $RECYCLE.BIN/
 
 # Thumbnails
 ._*
+.gradle
+.externalNativeBuild
 
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
@@ -45,3 +48,12 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Project android
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+/.app/src/main/res/values/secret.xml
+/build
+/captures
+
