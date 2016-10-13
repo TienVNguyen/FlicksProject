@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/darker_gray"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:padding="@dimen/activity_padding">
 
@@ -19,7 +19,7 @@
         android:layout_height="@dimen/list_item_image_height"
         android:layout_weight="1"
         android:contentDescription="@string/app_name"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         tools:src="@drawable/image_placeholder" />
 
     <LinearLayout
@@ -36,12 +36,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_small"
             android:ellipsize="end"
+            android:gravity="center_horizontal"
             android:maxLines="3"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_large"
             android:textStyle="bold"
-            tools:text="@string/text_title"
-            android:gravity="center_horizontal" />
+            tools:text="@string/text_title" />
 
         <TextView
             android:id="@+id/listItemTvOverview"
@@ -49,8 +49,8 @@
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:maxLines="7"
-            android:text="@string/text_overview"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_small" />
+            android:textSize="@dimen/text_small"
+            tools:text="@string/text_overview" />
     </LinearLayout>
 </LinearLayout>

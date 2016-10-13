@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ Written by TienVNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin"
+    tools:context=".activities.DetailsActivity">
+
+    <WebView
+        android:id="@+id/detailsWebVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin" />
+
+    <TextView
+        android:id="@+id/detailsTvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailsWebVideo"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_large"
+        android:textStyle="bold"
+        tools:text="@string/text_title" />
+
+    <TextView
+        android:id="@+id/detailsTxReleaseDateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailsTvTitle"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:text="@string/release_date" />
+
+    <TextView
+        android:id="@+id/detailsTvReleaseDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailsTvTitle"
+        android:layout_marginLeft="@dimen/space_small"
+        android:layout_marginStart="@dimen/space_small"
+        android:layout_toEndOf="@id/detailsTxReleaseDateTitle"
+        android:layout_toRightOf="@id/detailsTxReleaseDateTitle"
+        android:textStyle="bold|italic" />
+
+    <RatingBar
+        android:id="@+id/detailsRbVoteAverage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailsTxReleaseDateTitle"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:numStars="5"
+        android:saveEnabled="false" />
+
+    <TextView
+        android:id="@+id/detailsTvOverview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailsRbVoteAverage"
+        tools:text="@string/text_overview" />
+</RelativeLayout>

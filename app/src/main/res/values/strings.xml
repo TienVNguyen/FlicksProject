@@ -9,4 +9,5 @@
     <string name="app_name">FlicksProject</string>
     <string name="text_title">TextTitle</string>
     <string name="text_overview">FlicksOverViewZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNMZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNMZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNM</string>
+    <string name="release_date">Release Date:</string>
 </resources>

@@ -3,8 +3,9 @@ FlicksProject
 
 Week 1: Assignment.
 
-Time spent: [4] hours implementation in total:
+Time spent: [6] hours implementation in total:
 - 10/11: 4 hours
+- 10/13: 4 hours
 
 Implement/App link: https://github.com/TienVNguyen/FlicksProject
 
@@ -28,14 +29,14 @@ The following **optional** features are implemented:
 
 The following **bonus** features are implemented:
 
-* [ ] Allow user to view details of the movie including ratings and popularity within a separate activity or dialog fragment.
-* [ ] When viewing a popular movie (i.e. a movie voted for more than 5 stars) the video should show the full backdrop image as the layout.  Uses [Heterogenous ListViews](http://guides.codepath.com/android/Implementing-a-Heterogenous-ListView) or [Heterogenous RecyclerView](http://guides.codepath.com/android/Heterogenous-Layouts-inside-RecyclerView) to show different layouts.
+* [x] Allow user to view details of the movie including ratings and popularity within a separate activity or dialog fragment.
+* [x] When viewing a popular movie (i.e. a movie voted for more than 5 stars) the video should show the full backdrop image as the layout. Uses [Heterogenous ListViews](http://guides.codepath.com/android/Implementing-a-Heterogenous-ListView) or [Heterogenous RecyclerView](http://guides.codepath.com/android/Heterogenous-Layouts-inside-RecyclerView) to show different layouts.
 * [ ] Allow video trailers to be played in full-screen using the YouTubePlayerView.
     * [ ] Overlay a play icon for videos that can be played.
     * [ ] More popular movies should start a separate activity that plays the video immediately.
     * [ ] Less popular videos rely on the detail page should show ratings and a YouTube preview.
 * [x] Apply the popular [Butterknife annotation library](http://guides.codepath.com/android/Reducing-View-Boilerplate-with-Butterknife) to reduce boilerplate code.
-* [ ] Apply rounded corners for the poster or background images using [Picasso transformations](https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library#other-transformations)
+* [x] Apply rounded corners for the poster or background images using [Picasso transformations](https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library#other-transformations)
 * [ ] Replaced android-async-http network client with the popular [OkHttp](http://guides.codepath.com/android/Using-OkHttp) or [Volley](http://guides.codepath.com/android/Networking-with-the-Volley-Library) networking libraries.
 
 The following **additional** features are implemented:
@@ -60,9 +61,12 @@ Describe any challenges encountered while building the app.
 
 ## Open-source libraries used
 
-- [Retrofit2](https://github.com/square/retrofit) - Type-safe HTTP client for Android and Java by Square, Inc. http://square.github.io/retrofit/
-- [Glide](https://github.com/bumptech/glide) - An image loading and caching library for Android focused on smooth scrolling
-- [Butterknife] (https://github.com/JakeWharton/butterknife/) - Bind Android views and callbacks to fields and methods. http://jakewharton.github.io/butterknife/
+- [Retrofit2](https://github.com/square/retrofit) - Type-safe HTTP client for Android and Java by Square, Inc.
+- [Retrofit2-Gson] (https://github.com/square/retrofit/wiki/Converters) com.squareup.retrofit2:converter-gson.
+- [Glide](https://github.com/bumptech/glide) - An image loading and caching library for Android focused on smooth scrolling.
+- [Glide-Transformations](https://github.com/wasabeef/glide-transformations) - An Android transformation library providing a variety of image transformations for Glide.
+- [Butterknife] (https://github.com/JakeWharton/butterknife/) - Bind Android views and callbacks to fields and methods.
+- [Recyclerview-Animators] (https://github.com/wasabeef/recyclerview-animators) - An Android Animation library which easily add itemanimator to RecyclerView items.
 
 ## License
 

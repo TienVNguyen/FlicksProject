@@ -11,7 +11,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-import com.training.tiennguyen.flicksproject.constants.UrlConstant;
+import com.training.tiennguyen.flicksproject.constants.UrlConstants;
 
 /**
  * {@link }
@@ -44,6 +44,24 @@ public class MovieModel implements Parcelable {
     private String mBackdropPath;
 
     /**
+     * id
+     */
+    @SerializedName("id")
+    private String mId;
+
+    /**
+     * release_date
+     */
+    @SerializedName("release_date")
+    private String mReleaseDate;
+
+    /**
+     * id
+     */
+    @SerializedName("vote_average")
+    private String mVoteAverage;
+
+    /**
      * Constructor
      */
     public MovieModel() {
@@ -59,6 +77,9 @@ public class MovieModel implements Parcelable {
         mOverview = in.readString();
         mPosterPath = in.readString();
         mBackdropPath = in.readString();
+        mId = in.readString();
+        mReleaseDate = in.readString();
+        mVoteAverage = in.readString();
     }
 
     /**
@@ -87,6 +108,9 @@ public class MovieModel implements Parcelable {
         dest.writeString(mOverview);
         dest.writeString(mPosterPath);
         dest.writeString(mBackdropPath);
+        dest.writeString(mId);
+        dest.writeString(mReleaseDate);
+        dest.writeString(mVoteAverage);
     }
 
     public String getmTitle() {
@@ -98,10 +122,22 @@ public class MovieModel implements Parcelable {
     }
 
     public String getmPosterPath() {
-        return UrlConstant.BASE_URL + mPosterPath;
+        return UrlConstants.BASE_URL + mPosterPath;
     }
 
     public String getmBackdropPath() {
-        return UrlConstant.BASE_URL + mBackdropPath;
+        return UrlConstants.BASE_URL + mBackdropPath;
+    }
+
+    public String getmId() {
+        return mId;
+    }
+
+    public String getmReleaseDate() {
+        return mReleaseDate;
+    }
+
+    public String getmVoteAverage() {
+        return mVoteAverage;
     }
 }

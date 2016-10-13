@@ -8,38 +8,45 @@
 package com.training.tiennguyen.flicksproject.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.training.tiennguyen.flicksproject.R;
 import com.training.tiennguyen.flicksproject.models.MovieModel;
 import com.training.tiennguyen.flicksproject.utils.ConfigurationUtils;
-import com.training.tiennguyen.flicksproject.viewHolders.MovieViewHolder;
+import com.training.tiennguyen.flicksproject.viewHolders.MovieViewHolder1;
+import com.training.tiennguyen.flicksproject.viewHolders.MovieViewHolder2;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * {@link MovieAdapter}
  *
  * @author TienVNguyen
  */
-public class MovieAdapter extends RecyclerView.Adapter<MovieViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context mContext;
-    private final int mResource;
     private final List<MovieModel> mMovies;
+    private final int POPULAR = 0;
 
     /**
      * Constructor
      *
-     * @param context  {@link Context}
-     * @param resource {@link Integer}
-     * @param movies   {@link List<MovieModel>}
+     * @param context {@link Context}
+     * @param movies  {@link List<MovieModel>}
      */
-    public MovieAdapter(final Context context, final int resource, final List<MovieModel> movies) {
+    public MovieAdapter(final Context context, final List<MovieModel> movies) {
         this.mContext = context;
-        this.mResource = resource;
         this.mMovies = movies;
     }
 
@@ -49,21 +56,71 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieViewHolder> {
     }
 
     @Override
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MovieViewHolder(
-                LayoutInflater
-                        .from(parent.getContext())
-                        .inflate(mResource, parent, false));
+    public int getItemViewType(int position) {
+        double voteAverage = Double.parseDouble(mMovies.get(position).getmVoteAverage());
+        if (voteAverage > 5) {
+            return POPULAR;
+        } else {
+            return -1;
+        }
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        RecyclerView.ViewHolder viewHolder;
+
+        switch (viewType) {
+            case POPULAR:
+                View v2 = inflater.inflate(R.layout.item_movie_2, parent, false);
+                viewHolder = new MovieViewHolder2(mContext, v2, mMovies);
+                break;
+            default:
+                View v1 = inflater.inflate(R.layout.item_movie_1, parent, false);
+                viewHolder = new MovieViewHolder1(mContext, v1, mMovies);
+                break;
+        }
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final MovieModel model = mMovies.get(position);
         if (model != null) {
-            holder.tvTitle.setText(model.getmTitle());
-            holder.tvOverview.setText(model.getmOverview());
-            loadingImage(holder, getImagePath(model));
+            switch (holder.getItemViewType()) {
+                case POPULAR:
+                    MovieViewHolder2 vh2 = (MovieViewHolder2) holder;
+                    configureViewHolder2(model, vh2);
+                    break;
+                default:
+                    MovieViewHolder1 vh1 = (MovieViewHolder1) holder;
+                    configureViewHolder1(model, vh1);
+                    break;
+            }
         }
+    }
+
+    /**
+     * Configure View Holder 1
+     *
+     * @param model            {@link MovieModel}
+     * @param movieViewHolder1 {@link MovieViewHolder1}
+     */
+    private void configureViewHolder1(MovieModel model, MovieViewHolder1 movieViewHolder1) {
+        movieViewHolder1.tvTitle.setText(model.getmTitle());
+        movieViewHolder1.tvOverview.setText(model.getmOverview());
+        loadingImage(movieViewHolder1.ivImage, getImagePath(model));
+    }
+
+    /**
+     * Configure View Holder 2
+     *
+     * @param model            {@link MovieModel}
+     * @param movieViewHolder2 {@link MovieViewHolder2}
+     */
+    private void configureViewHolder2(MovieModel model, MovieViewHolder2 movieViewHolder2) {
+        loadingImage(movieViewHolder2.ivImageOnly, getImagePath(model));
     }
 
     /**
@@ -84,13 +141,41 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieViewHolder> {
     /**
      * Using Glide to load image
      *
-     * @param holder    {@link MovieViewHolder}
+     * @param imageView {@link ImageView}
      * @param imagePath {@link String}
      */
-    private void loadingImage(final MovieViewHolder holder, final String imagePath) {
+    private void loadingImage(final ImageView imageView, final String imagePath) {
+        RoundedCornersTransformation transformation = new RoundedCornersTransformation(mContext,
+                35, 0, RoundedCornersTransformation.CornerType.ALL);
+
         Glide.with(mContext)
                 .load(imagePath)
+                .listener(getRequestListenerForImage(imageView))
                 .placeholder(R.drawable.image_placeholder)
-                .into(holder.ivImage);
+                .bitmapTransform(transformation)
+                .into(imageView);
+    }
+
+    /**
+     * Request Listener For Image
+     *
+     * @param imageView {@link ImageView}
+     * @return {@link RequestListener}
+     */
+    @NonNull
+    private RequestListener<String, GlideDrawable> getRequestListenerForImage(final ImageView imageView) {
+        return new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                imageView.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                imageView.setVisibility(View.VISIBLE);
+                return false;
+            }
+        };
     }
 }

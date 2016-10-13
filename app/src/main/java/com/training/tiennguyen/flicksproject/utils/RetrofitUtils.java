@@ -7,7 +7,7 @@
 
 package com.training.tiennguyen.flicksproject.utils;
 
-import com.training.tiennguyen.flicksproject.constants.UrlConstant;
+import com.training.tiennguyen.flicksproject.constants.UrlConstants;
 
 import java.io.IOException;
 
@@ -33,7 +33,7 @@ public class RetrofitUtils {
      */
     public static Retrofit get(final String apiKey) {
         return new Retrofit.Builder()
-                .baseUrl(UrlConstant.BASE_CONSTANT)
+                .baseUrl(UrlConstants.BASE_CONSTANT)
                 .client(createClient(apiKey))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -90,7 +90,7 @@ public class RetrofitUtils {
     private static HttpUrl createUrl(final Request request, final String apiKey) {
         return request.url()
                 .newBuilder()
-                .addQueryParameter(UrlConstant.BASE_API, apiKey)
+                .addQueryParameter(UrlConstants.BASE_API, apiKey)
                 .build();
     }
 }

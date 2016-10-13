@@ -10,21 +10,25 @@ package com.training.tiennguyen.flicksproject.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.training.tiennguyen.flicksproject.R;
 import com.training.tiennguyen.flicksproject.adapters.MovieAdapter;
 import com.training.tiennguyen.flicksproject.api.MovieApi;
+import com.training.tiennguyen.flicksproject.listeners.EndlessRecyclerViewScrollListener;
 import com.training.tiennguyen.flicksproject.models.MovieModel;
-import com.training.tiennguyen.flicksproject.models.NowPlaying;
+import com.training.tiennguyen.flicksproject.models.NowPlayingModel;
 import com.training.tiennguyen.flicksproject.utils.ConfigurationUtils;
 import com.training.tiennguyen.flicksproject.utils.RetrofitUtils;
 
@@ -33,7 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,17 +86,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Init Views For Recycler View
-     */
-    private void initViewsForRecyclerView() {
-        mMovieAdapter = new MovieAdapter(getApplicationContext(), R.layout.item_movie, mMovies);
-        rvMovies.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        rvMovies.setHasFixedSize(true);
-        rvMovies.setAdapter(mMovieAdapter);
-        rvMovies.setItemAnimator(new SlideInUpAnimator());
-    }
-
-    /**
      * Init Views For Swipe Refresh Layout
      */
     private void initViewsForSwipeRefreshLayout() {
@@ -106,6 +99,37 @@ public class MainActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+    }
+
+    /**
+     * Init Views For Recycler View
+     */
+    private void initViewsForRecyclerView() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+        rvMovies.setLayoutManager(linearLayoutManager);
+
+        mMovieAdapter = new MovieAdapter(getApplicationContext(), mMovies);
+        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mMovieAdapter);
+        alphaAdapter.setDuration(1000);
+        alphaAdapter.setInterpolator(new OvershootInterpolator());
+        rvMovies.setAdapter(alphaAdapter);
+        rvMovies.addOnScrollListener(getOnScrollListener(linearLayoutManager));
+    }
+
+    /**
+     * On Scroll Listener
+     *
+     * @param linearLayoutManager {@link LinearLayoutManager}
+     * @return {@link EndlessRecyclerViewScrollListener}
+     */
+    @NonNull
+    private EndlessRecyclerViewScrollListener getOnScrollListener(final LinearLayoutManager linearLayoutManager) {
+        return new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                populateDataForList();
+            }
+        };
     }
 
     /**
@@ -144,14 +168,14 @@ public class MainActivity extends AppCompatActivity {
     private void fetchDataForList() {
         MovieApi mMovieApi = RetrofitUtils.get(getString(R.string.api_key)).create(MovieApi.class);
         mMovieApi.getNowPlaying()
-                .enqueue(new Callback<NowPlaying>() {
+                .enqueue(new Callback<NowPlayingModel>() {
                     @Override
-                    public void onResponse(Call<NowPlaying> call, Response<NowPlaying> response) {
+                    public void onResponse(Call<NowPlayingModel> call, Response<NowPlayingModel> response) {
                         apiQuerySuccess(response);
                     }
 
                     @Override
-                    public void onFailure(Call<NowPlaying> call, Throwable t) {
+                    public void onFailure(Call<NowPlayingModel> call, Throwable t) {
                         apiQueryFailed(t);
                     }
                 });
@@ -171,11 +195,11 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param response {@link Response}
      */
-    private void apiQuerySuccess(Response<NowPlaying> response) {
+    private void apiQuerySuccess(Response<NowPlayingModel> response) {
         Log.d("RESPONSE", String.valueOf(response.isSuccessful()));
 
         clearAllElementsForRv();
-        addAllElementsForRv(response.body().getMovies());
+        addAllElementsForRv(response.body().getmMovies());
         setVisibleForRelatedViews();
     }
 

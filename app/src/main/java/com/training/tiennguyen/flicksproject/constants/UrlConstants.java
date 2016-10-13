@@ -8,11 +8,11 @@
 package com.training.tiennguyen.flicksproject.constants;
 
 /**
- * {@link UrlConstant}
+ * {@link UrlConstants}
  *
  * @author TienVNguyen
  */
-public class UrlConstant {
+public class UrlConstants {
     public static final String BASE_API = "api_key";
     public static final String BASE_CONSTANT = "https://api.themoviedb.org/3/movie/";
     public static final String BASE_URL = "https://image.tmdb.org/t/p/w500";

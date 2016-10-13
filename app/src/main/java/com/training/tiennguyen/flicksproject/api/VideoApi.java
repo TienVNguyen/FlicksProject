@@ -7,23 +7,23 @@
 
 package com.training.tiennguyen.flicksproject.api;
 
-import com.training.tiennguyen.flicksproject.models.NowPlayingModel;
+import com.training.tiennguyen.flicksproject.models.TrailersModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 
 /**
- * {@link MovieApi}
+ * {@link VideoApi}
  *
  * @author TienVNguyen
  */
-public interface MovieApi {
+public interface VideoApi {
 
     /**
-     * Now Playing
+     * Youtube
      *
-     * @return Call<NowPlayingModel>
+     * @return Call<TrailersModel>
      */
-    @GET("now_playing")
-    Call<NowPlayingModel> getNowPlaying();
+    @GET("trailers")
+    Call<TrailersModel> getVideo();
 }

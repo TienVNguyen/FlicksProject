@@ -3,8 +3,7 @@
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
   ~ Written by TienVNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.training.tiennguyen.flicksproject">
 
@@ -25,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.DetailsActivity"
+            android:theme="@style/AppThemNoActionBar" />
     </application>
 
 </manifest>

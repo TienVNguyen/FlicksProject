@@ -39,6 +39,7 @@ ext {
     /* dependencies */
     butterknifeVersion = '8.4.0'
     glideVersion = '3.7.0'
+    glideTransformationVersion = '2.0.1'
     recyclerviewAnimatorsVersion = '2.2.3'
     retrofitVersion = '2.1.0'
     supportLibraryVersion = '24.2.1'
