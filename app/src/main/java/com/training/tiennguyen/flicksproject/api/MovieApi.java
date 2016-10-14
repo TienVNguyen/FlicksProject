@@ -7,7 +7,7 @@
 
 package com.training.tiennguyen.flicksproject.api;
 
-import com.training.tiennguyen.flicksproject.models.NowPlayingModel;
+import com.training.tiennguyen.flicksproject.models.NowPlayingResponseModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -22,8 +22,8 @@ public interface MovieApi {
     /**
      * Now Playing
      *
-     * @return Call<NowPlayingModel>
+     * @return Call<NowPlayingResponseModel>
      */
     @GET("now_playing")
-    Call<NowPlayingModel> getNowPlaying();
+    Call<NowPlayingResponseModel> getNowPlaying();
 }

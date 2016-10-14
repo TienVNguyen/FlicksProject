@@ -13,8 +13,8 @@
     android:padding="@dimen/activity_horizontal_margin"
     tools:context=".activities.DetailsActivity">
 
-    <WebView
-        android:id="@+id/detailsWebVideo"
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/detailsYtpvPlay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_horizontal_margin" />
@@ -23,7 +23,7 @@
         android:id="@+id/detailsTvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/detailsWebVideo"
+        android:layout_below="@id/detailsYtpvPlay"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:textAllCaps="true"
         android:textSize="@dimen/text_large"
@@ -47,7 +47,8 @@
         android:layout_marginStart="@dimen/space_small"
         android:layout_toEndOf="@id/detailsTxReleaseDateTitle"
         android:layout_toRightOf="@id/detailsTxReleaseDateTitle"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        tools:text="@string/text_release_date" />
 
     <RatingBar
         android:id="@+id/detailsRbVoteAverage"

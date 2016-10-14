@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -36,21 +34,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * {@link DetailsActivity}
+ * {@link VideoActivity}
  *
  * @author TienVNguyen
  */
-public class DetailsActivity extends YouTubeBaseActivity {
-    @BindView(R.id.detailsYtpvPlay)
-    protected YouTubePlayerView yTPVPlay;
-    @BindView(R.id.detailsTvTitle)
-    protected TextView tvTitle;
-    @BindView(R.id.detailsTvReleaseDate)
-    protected TextView tvReleaseDate;
-    @BindView(R.id.detailsRbVoteAverage)
-    protected RatingBar rbVoteAverage;
-    @BindView(R.id.detailsTvOverview)
-    protected TextView tvOverview;
+public class VideoActivity extends YouTubeBaseActivity {
+    @BindView(R.id.yTPVPlayFull)
+    protected YouTubePlayerView yTPVPlayFull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +53,7 @@ public class DetailsActivity extends YouTubeBaseActivity {
      * Init Views
      */
     private void initViews() {
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_video);
         ButterKnife.bind(this);
 
         final Intent intent = getIntent();
@@ -74,11 +64,7 @@ public class DetailsActivity extends YouTubeBaseActivity {
         if (movieModel == null)
             return;
 
-        tvTitle.setText(movieModel.getmTitle());
-        tvReleaseDate.setText(movieModel.getmReleaseDate());
-        rbVoteAverage.setRating(Float.parseFloat(movieModel.getmVoteAverage()));
-        tvOverview.setText(movieModel.getmOverview());
-        yTPVPlay.initialize(getString(R.string.api_key), getOnListenerForYoutubePlayer(getVideoSource(movieModel.getmId())));
+        yTPVPlayFull.initialize(getString(R.string.api_key), getOnListenerForYoutubePlayer(getVideoSource(movieModel.getmId())));
     }
 
     /**
@@ -93,13 +79,13 @@ public class DetailsActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                 YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.cueVideo(videoSource);
+                youTubePlayer.loadVideo(videoSource);
             }
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider,
                                                 YouTubeInitializationResult youTubeInitializationResult) {
-                Toast.makeText(DetailsActivity.this, "Youtube Failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VideoActivity.this, "Youtube Failed!", Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -136,7 +122,7 @@ public class DetailsActivity extends YouTubeBaseActivity {
      * @param throwable {@link Throwable}
      */
     private void apiQueryFailed(final Throwable throwable) {
-        Log.e("ERROR_VIDEOS", throwable.getMessage());
+        Log.e("ERROR_VIDEOS_FULL", throwable.getMessage());
     }
 
     /**
@@ -145,7 +131,7 @@ public class DetailsActivity extends YouTubeBaseActivity {
      * @param response {@link Response<TrailersResponseModel>}
      */
     private String apiQuerySuccess(Response<TrailersResponseModel> response) {
-        Log.d("RESPONSE_VIDEOS", String.valueOf(response.isSuccessful()));
+        Log.d("RESPONSE_VIDEOS_FULL", String.valueOf(response.isSuccessful()));
 
         List<VideoModel> list = response.body().getmVideos();
         if (list.size() > 0) {

@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
@@ -26,9 +25,10 @@ import android.widget.TextView;
 import com.training.tiennguyen.flicksproject.R;
 import com.training.tiennguyen.flicksproject.adapters.MovieAdapter;
 import com.training.tiennguyen.flicksproject.api.MovieApi;
+import com.training.tiennguyen.flicksproject.itemDecoration.SimpleDividerItemDecoration;
 import com.training.tiennguyen.flicksproject.listeners.EndlessRecyclerViewScrollListener;
 import com.training.tiennguyen.flicksproject.models.MovieModel;
-import com.training.tiennguyen.flicksproject.models.NowPlayingModel;
+import com.training.tiennguyen.flicksproject.models.NowPlayingResponseModel;
 import com.training.tiennguyen.flicksproject.utils.ConfigurationUtils;
 import com.training.tiennguyen.flicksproject.utils.RetrofitUtils;
 
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         alphaAdapter.setInterpolator(new OvershootInterpolator());
         rvMovies.setAdapter(alphaAdapter);
         rvMovies.addOnScrollListener(getOnScrollListener(linearLayoutManager));
+        rvMovies.addItemDecoration(new SimpleDividerItemDecoration(MainActivity.this));
     }
 
     /**
@@ -168,14 +169,14 @@ public class MainActivity extends AppCompatActivity {
     private void fetchDataForList() {
         MovieApi mMovieApi = RetrofitUtils.get(getString(R.string.api_key)).create(MovieApi.class);
         mMovieApi.getNowPlaying()
-                .enqueue(new Callback<NowPlayingModel>() {
+                .enqueue(new Callback<NowPlayingResponseModel>() {
                     @Override
-                    public void onResponse(Call<NowPlayingModel> call, Response<NowPlayingModel> response) {
+                    public void onResponse(Call<NowPlayingResponseModel> call, Response<NowPlayingResponseModel> response) {
                         apiQuerySuccess(response);
                     }
 
                     @Override
-                    public void onFailure(Call<NowPlayingModel> call, Throwable t) {
+                    public void onFailure(Call<NowPlayingResponseModel> call, Throwable t) {
                         apiQueryFailed(t);
                     }
                 });
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
      * @param throwable {@link Throwable}
      */
     private void apiQueryFailed(final Throwable throwable) {
-        Log.e("ERROR", throwable.getMessage());
+        Log.e("ERROR_MOVIES", throwable.getMessage());
     }
 
     /**
@@ -195,8 +196,8 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param response {@link Response}
      */
-    private void apiQuerySuccess(Response<NowPlayingModel> response) {
-        Log.d("RESPONSE", String.valueOf(response.isSuccessful()));
+    private void apiQuerySuccess(Response<NowPlayingResponseModel> response) {
+        Log.d("RESPONSE_MOVIES", String.valueOf(response.isSuccessful()));
 
         clearAllElementsForRv();
         addAllElementsForRv(response.body().getmMovies());

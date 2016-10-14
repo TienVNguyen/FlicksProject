@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
@@ -110,7 +111,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private void configureViewHolder1(MovieModel model, MovieViewHolder1 movieViewHolder1) {
         movieViewHolder1.tvTitle.setText(model.getmTitle());
         movieViewHolder1.tvOverview.setText(model.getmOverview());
-        loadingImage(movieViewHolder1.ivImage, getImagePath(model));
+        loadingImage(movieViewHolder1.ivImage, getImagePath(model), true);
     }
 
     /**
@@ -120,7 +121,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
      * @param movieViewHolder2 {@link MovieViewHolder2}
      */
     private void configureViewHolder2(MovieModel model, MovieViewHolder2 movieViewHolder2) {
-        loadingImage(movieViewHolder2.ivImageOnly, getImagePath(model));
+        loadingImage(movieViewHolder2.ivImageOnly, getImagePath(model), false);
     }
 
     /**
@@ -141,19 +142,24 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     /**
      * Using Glide to load image
      *
-     * @param imageView {@link ImageView}
-     * @param imagePath {@link String}
+     * @param imageView   {@link ImageView}
+     * @param imagePath   {@link String}
+     * @param isTransform {@link Boolean}
      */
-    private void loadingImage(final ImageView imageView, final String imagePath) {
-        RoundedCornersTransformation transformation = new RoundedCornersTransformation(mContext,
-                35, 0, RoundedCornersTransformation.CornerType.ALL);
-
-        Glide.with(mContext)
+    private void loadingImage(final ImageView imageView, final String imagePath, boolean isTransform) {
+        DrawableRequestBuilder<String> request = Glide.with(mContext)
                 .load(imagePath)
                 .listener(getRequestListenerForImage(imageView))
-                .placeholder(R.drawable.image_placeholder)
-                .bitmapTransform(transformation)
-                .into(imageView);
+                .placeholder(R.drawable.image_placeholder);
+
+        if (isTransform) {
+            RoundedCornersTransformation transformation = new RoundedCornersTransformation(mContext,
+                    35, 0, RoundedCornersTransformation.CornerType.ALL);
+
+            request.bitmapTransform(transformation);
+        }
+
+        request.into(imageView);
     }
 
     /**

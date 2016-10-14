@@ -15,30 +15,30 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * {@link TrailersModel}
+ * {@link TrailersResponseModel}
  *
  * @author TienVNguyen
  */
-public class TrailersModel implements Parcelable {
+public class TrailersResponseModel implements Parcelable {
     /**
      * youtube
      */
     @SerializedName("youtube")
     private List<VideoModel> mVideos;
 
-    private TrailersModel(Parcel in) {
+    private TrailersResponseModel(Parcel in) {
         mVideos = in.createTypedArrayList(VideoModel.CREATOR);
     }
 
-    public static final Creator<TrailersModel> CREATOR = new Creator<TrailersModel>() {
+    public static final Creator<TrailersResponseModel> CREATOR = new Creator<TrailersResponseModel>() {
         @Override
-        public TrailersModel createFromParcel(Parcel in) {
-            return new TrailersModel(in);
+        public TrailersResponseModel createFromParcel(Parcel in) {
+            return new TrailersResponseModel(in);
         }
 
         @Override
-        public TrailersModel[] newArray(int size) {
-            return new TrailersModel[size];
+        public TrailersResponseModel[] newArray(int size) {
+            return new TrailersResponseModel[size];
         }
     };
 

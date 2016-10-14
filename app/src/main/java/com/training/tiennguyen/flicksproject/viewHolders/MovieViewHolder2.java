@@ -8,11 +8,15 @@
 package com.training.tiennguyen.flicksproject.viewHolders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.training.tiennguyen.flicksproject.R;
+import com.training.tiennguyen.flicksproject.activities.DetailsActivity;
+import com.training.tiennguyen.flicksproject.activities.VideoActivity;
+import com.training.tiennguyen.flicksproject.constants.IntentConstants;
 import com.training.tiennguyen.flicksproject.models.MovieModel;
 
 import java.util.List;
@@ -28,6 +32,8 @@ import butterknife.ButterKnife;
 public class MovieViewHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener {
     @BindView(R.id.listItemIvImageOnly)
     public ImageView ivImageOnly;
+    @BindView(R.id.listItemIvPlayButton)
+    public ImageView ivPlayButton;
 
     private Context mContext;
     private List<MovieModel> mMovies;
@@ -45,7 +51,7 @@ public class MovieViewHolder2 extends RecyclerView.ViewHolder implements View.On
         this.mContext = context;
         this.mMovies = movies;
 
-        view.setOnClickListener(this);
+        ivPlayButton.setOnClickListener(this);
     }
 
     @Override
@@ -54,7 +60,10 @@ public class MovieViewHolder2 extends RecyclerView.ViewHolder implements View.On
         if (position != RecyclerView.NO_POSITION) {
             final MovieModel movieModel = mMovies.get(position);
             if (movieModel != null) {
-                // TODO: Youtube Action
+                final Intent intent = new Intent(mContext, VideoActivity.class);
+                intent.putExtra(IntentConstants.VIDEO_DETAILS, movieModel);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
             }
         }
     }

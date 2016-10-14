@@ -7,10 +7,11 @@
 
 package com.training.tiennguyen.flicksproject.api;
 
-import com.training.tiennguyen.flicksproject.models.TrailersModel;
+import com.training.tiennguyen.flicksproject.models.TrailersResponseModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * {@link VideoApi}
@@ -22,8 +23,8 @@ public interface VideoApi {
     /**
      * Youtube
      *
-     * @return Call<TrailersModel>
+     * @return Call<TrailersResponseModel>
      */
-    @GET("trailers")
-    Call<TrailersModel> getVideo();
+    @GET("{id}/trailers")
+    Call<TrailersResponseModel> getVideo(@Path("id") int id);
 }
