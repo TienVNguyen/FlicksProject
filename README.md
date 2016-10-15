@@ -3,11 +3,11 @@ FlicksProject
 
 Week 1: Assignment.
 
-Time spent: [12] hours implementation in total:
+Time spent: [14] hours implementation in total:
 - 10/11: 4 hours
 - 10/13: 4 hours
 - 10/14: 2 hours
-- 10/15: 2 hours
+- 10/15: 4 hours
 
 Implement/App link: https://github.com/TienVNguyen/FlicksProject
 

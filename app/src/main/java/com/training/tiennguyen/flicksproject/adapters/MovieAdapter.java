@@ -109,8 +109,13 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
      * @param movieViewHolder1 {@link MovieViewHolder1}
      */
     private void configureViewHolder1(MovieModel model, MovieViewHolder1 movieViewHolder1) {
-        movieViewHolder1.tvTitle.setText(model.getmTitle());
-        movieViewHolder1.tvOverview.setText(model.getmOverview());
+        if (model.getmTitle().length() > 0) {
+            movieViewHolder1.tvTitle.setText(model.getmTitle());
+            movieViewHolder1.tvOverview.setText(model.getmOverview());
+        } else {
+            movieViewHolder1.tvTitle.setVisibility(View.GONE);
+            movieViewHolder1.tvOverview.setVisibility(View.GONE);
+        }
         loadingImage(movieViewHolder1.ivImage, getImagePath(model), true);
     }
 

@@ -21,6 +21,9 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayer.ErrorReason;
+import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
+import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.training.tiennguyen.flicksproject.R;
 import com.training.tiennguyen.flicksproject.api.VideoApi;
@@ -128,7 +131,12 @@ public class DetailsActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                 YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.cueVideo(videoSource);
+                youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
+                youTubePlayer.setPlaybackEventListener(playbackEventListener);
+                if (!b) {
+                    youTubePlayer.cueVideo(videoSource);
+                }
+
                 yTPVPlay.setVisibility(View.VISIBLE);
             }
 
@@ -194,4 +202,67 @@ public class DetailsActivity extends YouTubeBaseActivity {
         yTPVPlay.setVisibility(View.GONE);
         return "";
     }
+
+    /**
+     * PlaybackEventListener
+     */
+    private PlaybackEventListener playbackEventListener = new PlaybackEventListener() {
+
+        @Override
+        public void onBuffering(boolean arg0) {
+        }
+
+        @Override
+        public void onPaused() {
+        }
+
+        @Override
+        public void onPlaying() {
+        }
+
+        @Override
+        public void onSeekTo(int arg0) {
+        }
+
+        @Override
+        public void onStopped() {
+        }
+
+    };
+
+    /**
+     * YouTubePlayer.PlayerStateChangeListener
+     */
+    private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener = new PlayerStateChangeListener() {
+
+        @Override
+        public void onAdStarted() {
+            Log.d("DETAILS_YOUTUBE", "onAdStarted");
+        }
+
+        @Override
+        public void onError(ErrorReason arg0) {
+            Log.d("DETAILS_YOUTUBE_ERROR", arg0.toString());
+        }
+
+        @Override
+        public void onLoaded(String arg0) {
+            Log.d("DETAILS_YOUTUBE", arg0);
+        }
+
+        @Override
+        public void onLoading() {
+            Log.d("DETAILS_YOUTUBE", "onLoading");
+        }
+
+        @Override
+        public void onVideoEnded() {
+            Log.d("DETAILS_YOUTUBE", "onVideoEnded");
+        }
+
+        @Override
+        public void onVideoStarted() {
+            Log.d("DETAILS_YOUTUBE", "onVideoStarted");
+        }
+    };
 }

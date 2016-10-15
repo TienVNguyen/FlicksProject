@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        tvEmptyList.setVisibility(View.GONE);
+
         initViewsForRecyclerView();
         initViewsForSwipeRefreshLayout();
     }
@@ -161,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         tvEmptyList.setText(getString(R.string.text_empty_list_by_connection_issue));
                         tvEmptyList.setVisibility(View.VISIBLE);
+                        pbMovies.setVisibility(View.GONE);
+                        rvMovies.setVisibility(View.GONE);
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -250,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
      * @return {@link RecyclerView.Adapter}
      */
     public RecyclerView.Adapter getAdapter() {
-        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mMovieAdapter);
+        final AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mMovieAdapter);
         alphaAdapter.setDuration(1000);
         alphaAdapter.setInterpolator(new OvershootInterpolator());
         return alphaAdapter;
