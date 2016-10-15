@@ -47,7 +47,7 @@ public class MovieModel implements Parcelable {
      * id
      */
     @SerializedName("id")
-    private String mId;
+    private int mId;
 
     /**
      * release_date
@@ -59,7 +59,7 @@ public class MovieModel implements Parcelable {
      * id
      */
     @SerializedName("vote_average")
-    private String mVoteAverage;
+    private float mVoteAverage;
 
     /**
      * Constructor
@@ -77,9 +77,9 @@ public class MovieModel implements Parcelable {
         mOverview = in.readString();
         mPosterPath = in.readString();
         mBackdropPath = in.readString();
-        mId = in.readString();
+        mId = in.readInt();
         mReleaseDate = in.readString();
-        mVoteAverage = in.readString();
+        mVoteAverage = in.readFloat();
     }
 
     /**
@@ -108,9 +108,9 @@ public class MovieModel implements Parcelable {
         dest.writeString(mOverview);
         dest.writeString(mPosterPath);
         dest.writeString(mBackdropPath);
-        dest.writeString(mId);
+        dest.writeInt(mId);
         dest.writeString(mReleaseDate);
-        dest.writeString(mVoteAverage);
+        dest.writeFloat(mVoteAverage);
     }
 
     public String getmTitle() {
@@ -129,7 +129,7 @@ public class MovieModel implements Parcelable {
         return UrlConstants.BASE_URL + mBackdropPath;
     }
 
-    public String getmId() {
+    public int getmId() {
         return mId;
     }
 
@@ -137,7 +137,7 @@ public class MovieModel implements Parcelable {
         return mReleaseDate;
     }
 
-    public String getmVoteAverage() {
+    public float getmVoteAverage() {
         return mVoteAverage;
     }
 }

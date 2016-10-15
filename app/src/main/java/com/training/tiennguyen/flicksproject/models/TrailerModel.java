@@ -13,11 +13,11 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * {@link VideoModel}
+ * {@link TrailerModel}
  *
  * @author TienVNguyen
  */
-public class VideoModel implements Parcelable {
+public class TrailerModel implements Parcelable {
     /**
      * name
      */
@@ -45,23 +45,23 @@ public class VideoModel implements Parcelable {
     /**
      * Constructor
      */
-    public VideoModel() {
+    public TrailerModel() {
     }
 
-    private VideoModel(Parcel in) {
+    private TrailerModel(Parcel in) {
         mName = in.readString();
         mSource = in.readString();
     }
 
-    public static final Creator<VideoModel> CREATOR = new Creator<VideoModel>() {
+    public static final Creator<TrailerModel> CREATOR = new Creator<TrailerModel>() {
         @Override
-        public VideoModel createFromParcel(Parcel in) {
-            return new VideoModel(in);
+        public TrailerModel createFromParcel(Parcel in) {
+            return new TrailerModel(in);
         }
 
         @Override
-        public VideoModel[] newArray(int size) {
-            return new VideoModel[size];
+        public TrailerModel[] newArray(int size) {
+            return new TrailerModel[size];
         }
     };
 

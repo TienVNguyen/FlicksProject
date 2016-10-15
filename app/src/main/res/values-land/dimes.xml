@@ -6,6 +6,6 @@
   -->
 
 <resources>
-    <dimen name="list_item_image_height">150dp</dimen>
-    <dimen name="list_video_icon_image_height">30dp</dimen>
+    <dimen name="list_item_image_height">180dp</dimen>
+    <dimen name="list_video_icon_image_height">60dp</dimen>
 </resources>

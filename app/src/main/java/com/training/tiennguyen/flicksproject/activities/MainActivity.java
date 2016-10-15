@@ -109,10 +109,7 @@ public class MainActivity extends AppCompatActivity {
         rvMovies.setLayoutManager(linearLayoutManager);
 
         mMovieAdapter = new MovieAdapter(getApplicationContext(), mMovies);
-        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mMovieAdapter);
-        alphaAdapter.setDuration(1000);
-        alphaAdapter.setInterpolator(new OvershootInterpolator());
-        rvMovies.setAdapter(alphaAdapter);
+        rvMovies.setAdapter(getAdapter());
         rvMovies.addOnScrollListener(getOnScrollListener(linearLayoutManager));
         rvMovies.addItemDecoration(new SimpleDividerItemDecoration(MainActivity.this));
     }
@@ -159,6 +156,13 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tvEmptyList.setText(getString(R.string.text_empty_list_by_connection_issue));
+                        tvEmptyList.setVisibility(View.VISIBLE);
+                    }
+                })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
@@ -167,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
      * Fetch Data For List
      */
     private void fetchDataForList() {
-        MovieApi mMovieApi = RetrofitUtils.get(getString(R.string.api_key)).create(MovieApi.class);
+        MovieApi mMovieApi = RetrofitUtils.get(getString(R.string.api_key_themoviedb)).create(MovieApi.class);
         mMovieApi.getNowPlaying()
                 .enqueue(new Callback<NowPlayingResponseModel>() {
                     @Override
@@ -189,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void apiQueryFailed(final Throwable throwable) {
         Log.e("ERROR_MOVIES", throwable.getMessage());
+
+        tvEmptyList.setText(getString(R.string.text_empty_list_by_connection_issue));
+        tvEmptyList.setVisibility(View.VISIBLE);
+        pbMovies.setVisibility(View.GONE);
     }
 
     /**
@@ -211,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
         if (mMovies.size() > 0) {
             tvEmptyList.setVisibility(View.GONE);
         } else {
+            tvEmptyList.setText(getString(R.string.text_empty_list));
             tvEmptyList.setVisibility(View.VISIBLE);
         }
         pbMovies.setVisibility(View.GONE);
@@ -233,5 +242,17 @@ public class MainActivity extends AppCompatActivity {
     public void addAllElementsForRv(List<MovieModel> list) {
         mMovies.addAll(list);
         mMovieAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Adapter for Recycler View
+     *
+     * @return {@link RecyclerView.Adapter}
+     */
+    public RecyclerView.Adapter getAdapter() {
+        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mMovieAdapter);
+        alphaAdapter.setDuration(1000);
+        alphaAdapter.setInterpolator(new OvershootInterpolator());
+        return alphaAdapter;
     }
 }

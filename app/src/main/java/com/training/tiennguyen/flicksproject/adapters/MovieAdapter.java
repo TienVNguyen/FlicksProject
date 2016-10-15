@@ -58,7 +58,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        double voteAverage = Double.parseDouble(mMovies.get(position).getmVoteAverage());
+        double voteAverage = mMovies.get(position).getmVoteAverage();
         if (voteAverage > 5) {
             return POPULAR;
         } else {

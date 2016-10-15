@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.training.tiennguyen.flicksproject.R;
-import com.training.tiennguyen.flicksproject.activities.DetailsActivity;
 import com.training.tiennguyen.flicksproject.activities.VideoActivity;
 import com.training.tiennguyen.flicksproject.constants.IntentConstants;
 import com.training.tiennguyen.flicksproject.models.MovieModel;
@@ -33,7 +32,7 @@ public class MovieViewHolder2 extends RecyclerView.ViewHolder implements View.On
     @BindView(R.id.listItemIvImageOnly)
     public ImageView ivImageOnly;
     @BindView(R.id.listItemIvPlayButton)
-    public ImageView ivPlayButton;
+    ImageView ivPlayButton;
 
     private Context mContext;
     private List<MovieModel> mMovies;

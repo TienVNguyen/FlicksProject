@@ -17,4 +17,9 @@ public class IntentConstants {
      * VIDEO_DETAILS
      */
     public static final String VIDEO_DETAILS = "VIDEO_DETAILS";
+
+    /**
+     * SPLASH_TIME_OUT
+     */
+    public static int SPLASH_TIME_OUT = 1000;
 }

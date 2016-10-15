@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -21,10 +22,11 @@ import com.training.tiennguyen.flicksproject.R;
 import com.training.tiennguyen.flicksproject.api.VideoApi;
 import com.training.tiennguyen.flicksproject.constants.IntentConstants;
 import com.training.tiennguyen.flicksproject.models.MovieModel;
+import com.training.tiennguyen.flicksproject.models.TrailerModel;
 import com.training.tiennguyen.flicksproject.models.TrailersResponseModel;
-import com.training.tiennguyen.flicksproject.models.VideoModel;
 import com.training.tiennguyen.flicksproject.utils.RetrofitUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -64,22 +66,23 @@ public class VideoActivity extends YouTubeBaseActivity {
         if (movieModel == null)
             return;
 
-        yTPVPlayFull.initialize(getString(R.string.api_key), getOnListenerForYoutubePlayer(getVideoSource(movieModel.getmId())));
+        yTPVPlayFull.initialize(getString(R.string.api_key_youtube),
+                getOnListenerForYoutubePlayer(getVideoSources(movieModel.getmId())));
     }
 
     /**
      * On Initialized Listener For Youtube Player
      *
-     * @param videoSource {@link String}
+     * @param videoSources {@link List<String>}
      * @return {@link YouTubePlayer.OnInitializedListener}
      */
     @NonNull
-    private YouTubePlayer.OnInitializedListener getOnListenerForYoutubePlayer(final String videoSource) {
+    private YouTubePlayer.OnInitializedListener getOnListenerForYoutubePlayer(final List<String> videoSources) {
         return new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                 YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.loadVideo(videoSource);
+                youTubePlayer.loadVideos(videoSources);
             }
 
             @Override
@@ -94,17 +97,17 @@ public class VideoActivity extends YouTubeBaseActivity {
      * Get Video Source
      *
      * @param id {@link String}
-     * @return {@link String}
+     * @return {@link List<String>}
      */
-    private String getVideoSource(final String id) {
-        final StringBuilder videoSource = new StringBuilder();
+    private List<String> getVideoSources(final int id) {
+        final List<String> videoSources = new ArrayList<>();
 
-        VideoApi videoApi = RetrofitUtils.get(getString(R.string.api_key)).create(VideoApi.class);
-        videoApi.getVideo(Integer.parseInt(id))
+        VideoApi videoApi = RetrofitUtils.get(getString(R.string.api_key_themoviedb)).create(VideoApi.class);
+        videoApi.getVideo(id)
                 .enqueue(new Callback<TrailersResponseModel>() {
                     @Override
                     public void onResponse(Call<TrailersResponseModel> call, Response<TrailersResponseModel> response) {
-                        videoSource.append(apiQuerySuccess(response));
+                        videoSources.addAll(apiQuerySuccess(response));
                     }
 
                     @Override
@@ -113,7 +116,7 @@ public class VideoActivity extends YouTubeBaseActivity {
                     }
                 });
 
-        return videoSource.toString();
+        return videoSources;
     }
 
     /**
@@ -123,6 +126,8 @@ public class VideoActivity extends YouTubeBaseActivity {
      */
     private void apiQueryFailed(final Throwable throwable) {
         Log.e("ERROR_VIDEOS_FULL", throwable.getMessage());
+
+        yTPVPlayFull.setVisibility(View.GONE);
     }
 
     /**
@@ -130,13 +135,22 @@ public class VideoActivity extends YouTubeBaseActivity {
      *
      * @param response {@link Response<TrailersResponseModel>}
      */
-    private String apiQuerySuccess(Response<TrailersResponseModel> response) {
+    private List<String> apiQuerySuccess(final Response<TrailersResponseModel> response) {
         Log.d("RESPONSE_VIDEOS_FULL", String.valueOf(response.isSuccessful()));
 
-        List<VideoModel> list = response.body().getmVideos();
+        List<TrailerModel> list = response.body().getmVideos();
+        List<String> sources = new ArrayList<>();
         if (list.size() > 0) {
-            return list.get(0).getmSource();
+            for (TrailerModel model : list) {
+                sources.add(model.getmSource());
+            }
         }
-        return "";
+
+        if (sources.size() > 0)
+            yTPVPlayFull.setVisibility(View.VISIBLE);
+        else
+            yTPVPlayFull.setVisibility(View.GONE);
+
+        return sources;
     }
 }

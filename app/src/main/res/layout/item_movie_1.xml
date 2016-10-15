@@ -38,9 +38,10 @@
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="3"
-            android:textColor="@android:color/white"
             android:textSize="@dimen/text_large"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
+            style="@style/TextTemplate"
             tools:text="@string/text_title" />
 
         <TextView
@@ -49,7 +50,7 @@
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:maxLines="7"
-            android:textColor="@android:color/white"
+            style="@style/TextTemplate"
             android:textSize="@dimen/text_small"
             tools:text="@string/text_overview" />
     </LinearLayout>

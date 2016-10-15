@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/AppThemNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +26,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.MainActivity"
+            android:theme="@style/AppThemNoActionBar" />
+        <activity
             android:name=".activities.DetailsActivity"
             android:theme="@style/AppThemNoActionBar" />
         <activity
             android:name=".activities.VideoActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/AppThemNoActionBar" />
     </application>
 

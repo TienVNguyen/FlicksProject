@@ -11,4 +11,6 @@
     <string name="text_overview">FlicksOverViewZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNMZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNMZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNM</string>
     <string name="release_date">Release Date:</string>
     <string name="text_release_date">2016-09-14</string>
+    <string name="text_empty_list">Empty Data</string>
+    <string name="text_empty_list_by_connection_issue">Connection Issue</string>
 </resources>

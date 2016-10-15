@@ -40,9 +40,9 @@ dependencies {
     compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoCoreVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile "junit:junit:$rootProject.jUnitVersion"
-    compile files('libs/YouTubeAndroidPlayerApi.jar')
 }

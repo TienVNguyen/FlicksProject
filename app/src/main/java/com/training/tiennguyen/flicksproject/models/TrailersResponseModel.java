@@ -24,10 +24,10 @@ public class TrailersResponseModel implements Parcelable {
      * youtube
      */
     @SerializedName("youtube")
-    private List<VideoModel> mVideos;
+    private List<TrailerModel> mVideos;
 
     private TrailersResponseModel(Parcel in) {
-        mVideos = in.createTypedArrayList(VideoModel.CREATOR);
+        mVideos = in.createTypedArrayList(TrailerModel.CREATOR);
     }
 
     public static final Creator<TrailersResponseModel> CREATOR = new Creator<TrailersResponseModel>() {
@@ -52,7 +52,7 @@ public class TrailersResponseModel implements Parcelable {
         dest.writeTypedList(mVideos);
     }
 
-    public List<VideoModel> getmVideos() {
+    public List<TrailerModel> getmVideos() {
         return mVideos;
     }
 }

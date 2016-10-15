@@ -3,10 +3,11 @@ FlicksProject
 
 Week 1: Assignment.
 
-Time spent: [10] hours implementation in total:
+Time spent: [12] hours implementation in total:
 - 10/11: 4 hours
 - 10/13: 4 hours
 - 10/14: 2 hours
+- 10/15: 2 hours
 
 Implement/App link: https://github.com/TienVNguyen/FlicksProject
 
@@ -37,7 +38,6 @@ The following **bonus** features are implemented:
     * [x] More popular movies should start a separate activity that plays the video immediately.
     * [x] Less popular videos rely on the detail page should show ratings and a YouTube preview.
 * [x] Add a play icon overlay to popular movies to indicate that the movie can be played.
-* [ ] Leverage the data binding support module to bind data into one or more activity layout templates.
 * [x] Apply the popular [Butterknife annotation library](http://guides.codepath.com/android/Reducing-View-Boilerplate-with-Butterknife) to reduce boilerplate code.
 * [x] Apply rounded corners for the poster or background images using [Picasso transformations](https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library#other-transformations)
 * [x] Replaced android-async-http network client with the popular [Retrofit2](https://github.com/square/retrofit) or [Volley](http://guides.codepath.com/android/Networking-with-the-Volley-Library) networking libraries.
@@ -47,6 +47,7 @@ The following **additional** features are implemented:
 * [x] List anything else that you can get done to improve the app functionality!
     * [x] Have Internet connection confirmation
 	* [x] Apply RecyclerView instead of ListView
+	* [x] Have Splash Activity
 
 ## Video Walkthrough
 
