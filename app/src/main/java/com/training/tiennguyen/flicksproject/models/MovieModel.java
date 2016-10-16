@@ -20,41 +20,49 @@ import com.training.tiennguyen.flicksproject.constants.UrlConstants;
  */
 public class MovieModel implements Parcelable {
     /**
+     * Creator
+     */
+    public static final Creator<MovieModel> CREATOR = new Creator<MovieModel>() {
+        @Override
+        public MovieModel createFromParcel(Parcel in) {
+            return new MovieModel(in);
+        }
+
+        @Override
+        public MovieModel[] newArray(int size) {
+            return new MovieModel[size];
+        }
+    };
+    /**
      * title
      */
     @SerializedName("title")
     private String mTitle;
-
     /**
      * overview
      */
     @SerializedName("overview")
     private String mOverview;
-
     /**
      * poster_path
      */
     @SerializedName("poster_path")
     private String mPosterPath;
-
     /**
      * backdrop_path
      */
     @SerializedName("backdrop_path")
     private String mBackdropPath;
-
     /**
      * id
      */
     @SerializedName("id")
     private int mId;
-
     /**
      * release_date
      */
     @SerializedName("release_date")
     private String mReleaseDate;
-
     /**
      * id
      */
@@ -81,21 +89,6 @@ public class MovieModel implements Parcelable {
         mReleaseDate = in.readString();
         mVoteAverage = in.readFloat();
     }
-
-    /**
-     * Creator
-     */
-    public static final Creator<MovieModel> CREATOR = new Creator<MovieModel>() {
-        @Override
-        public MovieModel createFromParcel(Parcel in) {
-            return new MovieModel(in);
-        }
-
-        @Override
-        public MovieModel[] newArray(int size) {
-            return new MovieModel[size];
-        }
-    };
 
     @Override
     public int describeContents() {

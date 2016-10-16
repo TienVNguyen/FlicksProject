@@ -3,15 +3,14 @@ FlicksProject
 
 Week 1: Assignment.
 
-Time spent: [14] hours implementation in total:
+Time spent: Time spent: **16** hours spent in total:
 - 10/11: 4 hours
 - 10/13: 4 hours
 - 10/14: 2 hours
 - 10/15: 4 hours
+- 10/16: 2 hours
 
 Implement/App link: https://github.com/TienVNguyen/FlicksProject
-
-Time spent: **X** hours spent in total
 
 ## User Stories
 
@@ -53,7 +52,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/flicks_project.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/PIvZwAA.gifv' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

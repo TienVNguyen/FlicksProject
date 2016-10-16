@@ -18,24 +18,32 @@ import com.google.gson.annotations.SerializedName;
  * @author TienVNguyen
  */
 public class TrailerModel implements Parcelable {
+    public static final Creator<TrailerModel> CREATOR = new Creator<TrailerModel>() {
+        @Override
+        public TrailerModel createFromParcel(Parcel in) {
+            return new TrailerModel(in);
+        }
+
+        @Override
+        public TrailerModel[] newArray(int size) {
+            return new TrailerModel[size];
+        }
+    };
     /**
      * name
      */
     @SerializedName("name")
     private String mName;
-
     /**
      * source
      */
     @SerializedName("source")
     private String mSource;
-
     /**
      * size
      */
     @SerializedName("size")
     private String mSize;
-
     /**
      * type
      */
@@ -52,18 +60,6 @@ public class TrailerModel implements Parcelable {
         mName = in.readString();
         mSource = in.readString();
     }
-
-    public static final Creator<TrailerModel> CREATOR = new Creator<TrailerModel>() {
-        @Override
-        public TrailerModel createFromParcel(Parcel in) {
-            return new TrailerModel(in);
-        }
-
-        @Override
-        public TrailerModel[] newArray(int size) {
-            return new TrailerModel[size];
-        }
-    };
 
     @Override
     public int describeContents() {

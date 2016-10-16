@@ -6,5 +6,17 @@
   -->
 
 <resources>
-    <string name="app_name">FlicksProject</string>
+    <string name="app_name">フリックプロジェクト</string>
+    <string name="text_title">TextTitle</string>
+    <string name="release_date">発売日：</string>
+    <string name="text_empty_list">空のデータ</string>
+    <string name="text_empty_list_by_connection_issue">接続に関する問題</string>
+    <string name="hello_world">こんにちは!</string>
+    <string name="action_settings">設定</string>
+    <string name="player_error">YouTubeのプレイヤーの初期化エラー</string>
+    <string name="seek_to">にジャンプ</string>
+    <string name="seek_to_hint">秒</string>
+    <string name="video_load_error">ビデオの読み込みエラー</string>
+    <string name="connection_error_title">接続なし</string>
+    <string name="connection_error_message">インターネットに接続されていません。設定にアクセスしてください！</string>
 </resources>

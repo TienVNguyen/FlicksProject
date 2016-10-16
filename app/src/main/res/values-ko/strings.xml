@@ -6,5 +6,17 @@
   -->
 
 <resources>
-    <string name="app_name">FlicksProject</string>
+    <string name="app_name">제스처 프로젝트</string>
+    <string name="text_title">텍스트 제목</string>
+    <string name="release_date">발매일 :</string>
+    <string name="text_empty_list">빈 데이터</string>
+    <string name="text_empty_list_by_connection_issue">연결 문제</string>
+    <string name="hello_world">안녕하세요 세계!</string>
+    <string name="action_settings">설정</string>
+    <string name="player_error">오류 초기화 YouTube 플레이어</string>
+    <string name="seek_to">로 이동</string>
+    <string name="seek_to_hint">초</string>
+    <string name="video_load_error">비디오로드 오류</string>
+    <string name="connection_error_title">연결되지 않음</string>
+    <string name="connection_error_message">인터넷 연결이 없습니다. 설정으로 이동하세요!</string>
 </resources>

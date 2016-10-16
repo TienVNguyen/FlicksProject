@@ -20,16 +20,6 @@ import java.util.List;
  * @author TienVNguyen
  */
 public class NowPlayingResponseModel implements Parcelable {
-    /**
-     * results
-     */
-    @SerializedName("results")
-    private List<MovieModel> mMovies;
-
-    private NowPlayingResponseModel(Parcel in) {
-        mMovies = in.createTypedArrayList(MovieModel.CREATOR);
-    }
-
     public static final Creator<NowPlayingResponseModel> CREATOR = new Creator<NowPlayingResponseModel>() {
         @Override
         public NowPlayingResponseModel createFromParcel(Parcel in) {
@@ -41,6 +31,15 @@ public class NowPlayingResponseModel implements Parcelable {
             return new NowPlayingResponseModel[size];
         }
     };
+    /**
+     * results
+     */
+    @SerializedName("results")
+    private List<MovieModel> mMovies;
+
+    private NowPlayingResponseModel(Parcel in) {
+        mMovies = in.createTypedArrayList(MovieModel.CREATOR);
+    }
 
     @Override
     public int describeContents() {

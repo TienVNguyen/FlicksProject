@@ -34,6 +34,7 @@ import com.training.tiennguyen.flicksproject.models.TrailersResponseModel;
 import com.training.tiennguyen.flicksproject.utils.ConfigurationUtils;
 import com.training.tiennguyen.flicksproject.utils.RetrofitUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,6 +49,8 @@ import retrofit2.Response;
  * @author TienVNguyen
  */
 public class DetailsActivity extends YouTubeBaseActivity {
+    private static final int RECOVERY_REQUEST = 1;
+
     @BindView(R.id.detailsYtpvPlay)
     protected YouTubePlayerView yTPVPlay;
     @BindView(R.id.detailsTvTitle)
@@ -58,150 +61,6 @@ public class DetailsActivity extends YouTubeBaseActivity {
     protected RatingBar rbVoteAverage;
     @BindView(R.id.detailsTvOverview)
     protected TextView tvOverview;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        initViews();
-    }
-
-    /**
-     * Init Views
-     */
-    private void initViews() {
-        setContentView(R.layout.activity_details);
-        ButterKnife.bind(this);
-
-        final Intent intent = getIntent();
-        if (intent == null)
-            return;
-
-        final MovieModel movieModel = intent.getParcelableExtra(IntentConstants.VIDEO_DETAILS);
-        if (movieModel == null)
-            return;
-
-        tvTitle.setText(movieModel.getmTitle());
-        tvReleaseDate.setText(movieModel.getmReleaseDate());
-        rbVoteAverage.setRating(movieModel.getmVoteAverage());
-        tvOverview.setText(movieModel.getmOverview());
-
-        if (ConfigurationUtils.isConnectInternet(getApplicationContext())) {
-            yTPVPlay.initialize(getString(R.string.api_key_youtube),
-                    getOnListenerForYoutubePlayer(getVideoSource(movieModel.getmId())));
-        } else {
-            dialogMessageForInternetRequest();
-        }
-    }
-
-    /**
-     * Dialog Message For Internet Request
-     */
-    private void dialogMessageForInternetRequest() {
-        new AlertDialog.Builder(DetailsActivity.this)
-                .setTitle("NO CONNECTION")
-                .setMessage("There is no Internet connection. Please go to setting!")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setAction(android.provider.Settings.ACTION_DATA_ROAMING_SETTINGS);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        yTPVPlay.setVisibility(View.GONE);
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-
-    /**
-     * On Initialized Listener For Youtube Player
-     *
-     * @param videoSource {@link String}
-     * @return {@link YouTubePlayer.OnInitializedListener}
-     */
-    @NonNull
-    private YouTubePlayer.OnInitializedListener getOnListenerForYoutubePlayer(final String videoSource) {
-        return new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider,
-                                                YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
-                youTubePlayer.setPlaybackEventListener(playbackEventListener);
-                if (!b) {
-                    youTubePlayer.cueVideo(videoSource);
-                }
-
-                yTPVPlay.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                                YouTubeInitializationResult youTubeInitializationResult) {
-                Toast.makeText(DetailsActivity.this, "Youtube Failed!", Toast.LENGTH_SHORT).show();
-                yTPVPlay.setVisibility(View.GONE);
-            }
-        };
-    }
-
-    /**
-     * Get Video Source
-     *
-     * @param id {@link String}
-     * @return {@link String}
-     */
-    private String getVideoSource(final int id) {
-        final StringBuilder videoSource = new StringBuilder();
-
-        VideoApi videoApi = RetrofitUtils.get(getString(R.string.api_key_themoviedb)).create(VideoApi.class);
-        videoApi.getVideo(id)
-                .enqueue(new Callback<TrailersResponseModel>() {
-                    @Override
-                    public void onResponse(Call<TrailersResponseModel> call, Response<TrailersResponseModel> response) {
-                        videoSource.append(apiQuerySuccess(response));
-                    }
-
-                    @Override
-                    public void onFailure(Call<TrailersResponseModel> call, Throwable t) {
-                        apiQueryFailed(t);
-                    }
-                });
-
-        return videoSource.toString();
-    }
-
-    /**
-     * Api Query Failed
-     *
-     * @param throwable {@link Throwable}
-     */
-    private void apiQueryFailed(final Throwable throwable) {
-        Log.e("ERROR_VIDEOS", throwable.getMessage());
-
-        yTPVPlay.setVisibility(View.GONE);
-    }
-
-    /**
-     * Api Query Success
-     *
-     * @param response {@link Response<TrailersResponseModel>}
-     */
-    private String apiQuerySuccess(Response<TrailersResponseModel> response) {
-        Log.d("RESPONSE_VIDEOS", String.valueOf(response.isSuccessful()));
-
-        List<TrailerModel> list = response.body().getmVideos();
-        if (list.size() > 0) {
-            yTPVPlay.setVisibility(View.VISIBLE);
-            return list.get(0).getmSource();
-        }
-        yTPVPlay.setVisibility(View.GONE);
-        return "";
-    }
 
     /**
      * PlaybackEventListener
@@ -229,7 +88,6 @@ public class DetailsActivity extends YouTubeBaseActivity {
         }
 
     };
-
     /**
      * YouTubePlayer.PlayerStateChangeListener
      */
@@ -265,4 +123,202 @@ public class DetailsActivity extends YouTubeBaseActivity {
             Log.d("DETAILS_YOUTUBE", "onVideoStarted");
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        initViews();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initViews();
+    }
+
+    /**
+     * Init Views
+     */
+    private void initViews() {
+        setContentView(R.layout.activity_details);
+        ButterKnife.bind(this);
+
+        final Intent intent = getIntent();
+        if (intent == null)
+            return;
+
+        final MovieModel movieModel = intent.getParcelableExtra(IntentConstants.VIDEO_DETAILS);
+        if (movieModel == null)
+            return;
+
+        tvTitle.setText(movieModel.getmTitle());
+        tvReleaseDate.setText(movieModel.getmReleaseDate());
+        rbVoteAverage.setRating(movieModel.getmVoteAverage());
+        tvOverview.setText(movieModel.getmOverview());
+
+        loadVideo(movieModel);
+    }
+
+    /**
+     * Load Video
+     *
+     * @param movieModel {@link MovieModel}
+     */
+    private void loadVideo(MovieModel movieModel) {
+        if (ConfigurationUtils.isConnectInternet(getApplicationContext())) {
+            getVideoSources(movieModel.getmId());
+        } else {
+            dialogMessageForInternetRequest();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RECOVERY_REQUEST) {
+            final MovieModel movieModel = data.getParcelableExtra(IntentConstants.VIDEO_DETAILS);
+            if (movieModel == null)
+                return;
+
+            getVideoSources(movieModel.getmId());
+        }
+    }
+
+    /**
+     * Dialog Message For Internet Request
+     */
+    private void dialogMessageForInternetRequest() {
+        new AlertDialog.Builder(DetailsActivity.this)
+                .setTitle(getString(R.string.connection_error_title))
+                .setMessage(getString(R.string.connection_error_message))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                        startActivityForResult(intent, 0);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        yTPVPlay.setVisibility(View.GONE);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    /**
+     * On Initialized Listener For Youtube Player
+     *
+     * @param videoSources {@link String}
+     * @return {@link YouTubePlayer.OnInitializedListener}
+     */
+    @NonNull
+    private YouTubePlayer.OnInitializedListener getOnListenerForYoutubePlayer(final List<String> videoSources) {
+        return new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider,
+                                                YouTubePlayer youTubePlayer, boolean b) {
+                onInitializationSuccessForYouTubePlayerListener(youTubePlayer, b, videoSources);
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider,
+                                                YouTubeInitializationResult youTubeInitializationResult) {
+                onInitializationFailureForYouTubePlayerListener(youTubeInitializationResult);
+            }
+        };
+    }
+
+    /**
+     * onInitializationFailureForYouTubePlayerListener
+     *
+     * @param youTubeInitializationResult {@link YouTubeInitializationResult}
+     */
+    private void onInitializationFailureForYouTubePlayerListener(
+            final YouTubeInitializationResult youTubeInitializationResult) {
+
+        if (youTubeInitializationResult.isUserRecoverableError()) {
+            youTubeInitializationResult.getErrorDialog(DetailsActivity.this, RECOVERY_REQUEST).show();
+        } else {
+            String error = getString(R.string.player_error) + youTubeInitializationResult.toString();
+            Toast.makeText(DetailsActivity.this, error, Toast.LENGTH_LONG).show();
+        }
+        yTPVPlay.setVisibility(View.GONE);
+    }
+
+    /**
+     * onInitializationSuccessForYouTubePlayerListener
+     *
+     * @param youTubePlayer {@link YouTubePlayer}
+     * @param b             {@link Boolean}
+     * @param videoSources  {@link List<String>}
+     */
+    private void onInitializationSuccessForYouTubePlayerListener(
+            final YouTubePlayer youTubePlayer, final boolean b, final List<String> videoSources) {
+
+        youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
+        youTubePlayer.setPlaybackEventListener(playbackEventListener);
+        if (!b) {
+            youTubePlayer.cueVideos(videoSources);
+        }
+        yTPVPlay.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Get Video Sources
+     *
+     * @param id {@link String}
+     */
+    private void getVideoSources(final int id) {
+        VideoApi videoApi = RetrofitUtils.get(getString(R.string.api_key_themoviedb)).create(VideoApi.class);
+        videoApi.getVideo(id)
+                .enqueue(new Callback<TrailersResponseModel>() {
+                    @Override
+                    public void onResponse(Call<TrailersResponseModel> call, Response<TrailersResponseModel> response) {
+                        apiQuerySuccess(response);
+                    }
+
+                    @Override
+                    public void onFailure(Call<TrailersResponseModel> call, Throwable t) {
+                        apiQueryFailed(t);
+                    }
+                });
+    }
+
+    /**
+     * Api Query Failed
+     *
+     * @param throwable {@link Throwable}
+     */
+    private void apiQueryFailed(final Throwable throwable) {
+        Log.e("ERROR_VIDEOS", throwable.getMessage());
+
+        yTPVPlay.setVisibility(View.GONE);
+    }
+
+    /**
+     * Api Query Success
+     *
+     * @param response {@link Response<TrailersResponseModel>}
+     */
+    private void apiQuerySuccess(final Response<TrailersResponseModel> response) {
+        Log.d("RESPONSE_VIDEOS", String.valueOf(response.isSuccessful()));
+
+        List<TrailerModel> list = response.body().getmVideos();
+        List<String> sources = new ArrayList<>();
+        if (list.size() > 0) {
+            for (TrailerModel model : list) {
+                sources.add(model.getmSource());
+            }
+        }
+
+        if (sources.size() > 0) {
+            yTPVPlay.setVisibility(View.VISIBLE);
+            yTPVPlay.initialize(getString(R.string.api_key_youtube), getOnListenerForYoutubePlayer(sources));
+        } else {
+            yTPVPlay.setVisibility(View.GONE);
+        }
+    }
 }

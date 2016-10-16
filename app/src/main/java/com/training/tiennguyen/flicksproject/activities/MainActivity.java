@@ -148,14 +148,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void dialogMessageForInternetRequest() {
         new AlertDialog.Builder(MainActivity.this)
-                .setTitle("NO CONNECTION")
-                .setMessage("There is no Internet connection. Please go to setting!")
+                .setTitle(getString(R.string.connection_error_title))
+                .setMessage(getString(R.string.connection_error_message))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setAction(android.provider.Settings.ACTION_DATA_ROAMING_SETTINGS);
-                        startActivity(intent);
+                        Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                        startActivityForResult(intent, 0);
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -200,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvEmptyList.setText(getString(R.string.text_empty_list_by_connection_issue));
         tvEmptyList.setVisibility(View.VISIBLE);
+        rvMovies.setVisibility(View.GONE);
         pbMovies.setVisibility(View.GONE);
     }
 
@@ -222,9 +221,11 @@ public class MainActivity extends AppCompatActivity {
     private void setVisibleForRelatedViews() {
         if (mMovies.size() > 0) {
             tvEmptyList.setVisibility(View.GONE);
+            rvMovies.setVisibility(View.VISIBLE);
         } else {
             tvEmptyList.setText(getString(R.string.text_empty_list));
             tvEmptyList.setVisibility(View.VISIBLE);
+            rvMovies.setVisibility(View.GONE);
         }
         pbMovies.setVisibility(View.GONE);
         sRLMovies.setRefreshing(false);

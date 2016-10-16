@@ -32,6 +32,7 @@
 
         <TextView
             android:id="@+id/listItemTvTitle"
+            style="@style/TextTemplate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_small"
@@ -40,17 +41,15 @@
             android:maxLines="3"
             android:textSize="@dimen/text_large"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
-            style="@style/TextTemplate"
             tools:text="@string/text_title" />
 
         <TextView
             android:id="@+id/listItemTvOverview"
+            style="@style/TextTemplate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:maxLines="7"
-            style="@style/TextTemplate"
             android:textSize="@dimen/text_small"
             tools:text="@string/text_overview" />
     </LinearLayout>
